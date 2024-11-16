@@ -129,7 +129,7 @@ export default function Register() {
                 >
                   {() => (
                     <TextField
-                      required
+                      require
                       fullWidth
                       id="phone"
                       label="Phone number"
