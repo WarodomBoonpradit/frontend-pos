@@ -71,6 +71,7 @@ export default function Login() {
                         />
 
                         <Button
+                            href="/dashboard"
                             type="submit"
                             fullWidth
                             variant="contained"
