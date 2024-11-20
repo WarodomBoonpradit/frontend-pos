@@ -1,88 +1,92 @@
-import React from 'react';
-import { Box, Toolbar, Typography, Drawer, List, ListItem, ListItemIcon, ListItemText, IconButton, Avatar } from '@mui/material';
-import BarChartIcon from '@mui/icons-material/BarChart';
-import TableChartIcon from '@mui/icons-material/TableChart';
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-import LogoutIcon from '@mui/icons-material/Logout';
-import { useNavigate } from 'react-router-dom';
-import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
+import React, { useState } from "react";
+import {  Box,  Toolbar,  Typography,  Drawer,  List,  ListItem,  ListItemIcon,  ListItemText,  Avatar } from "@mui/material";
+import TableChartIcon from "@mui/icons-material/TableChart";
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+import LogoutIcon from "@mui/icons-material/Logout";
+import FastfoodIcon from '@mui/icons-material/Fastfood';
+import { useNavigate } from "react-router-dom";
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import TablePage from "./Component/Table";
+import Summary from "./Component/Summary";
 
 const Dashboard = () => {
-  const drawerWidth = 240;
+  const drawerWidth = 250;
+  const [selectedTab, setSelectedTab] = useState("Summarize");
   const navigate = useNavigate();
 
-  const data = [
-    { name: '1/12', uv: 120 },
-    { name: '2/12', uv: 100 },
-    { name: '3/12', uv: 150 },
-    { name: '4/12', uv: 200 },
-    { name: '5/12', uv: 250 },
-    { name: '6/12', uv: 460 },
-    { name: '7/12', uv: 320 },
-  ];
+  const handleTabClick = (tab) => {
+    setSelectedTab(tab);
+  };
 
   const handleSignOut = () => {
-    navigate('/');
+    navigate("/");
+    console.log("Sign Out");
   };
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: "flex" }}>
       {/* Sidebar */}
       <Drawer
         variant="permanent"
         sx={{
           width: drawerWidth,
           flexShrink: 0,
-          '& .MuiDrawer-paper': {
+          "& .MuiDrawer-paper": {
             width: drawerWidth,
-            boxSizing: 'border-box',
-            backgroundColor: '#333',
-            color: '#fff',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between',
+            boxSizing: "border-box",
+            backgroundColor: "#333",
+            color: "#fff",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
           },
         }}
       >
         <Box>
           {/* Logo Container */}
-          <Box sx={{ 
-            display: 'flex', 
-            justifyContent: 'center', 
-            alignItems: 'center',
-            flexDirection: 'column',
-            py: 2  // padding top and bottom
-          }}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "column",
+              py: 2, // padding top and bottom
+            }}
+          >
             <Avatar
               alt="Logo"
-              src="/path-to-logo.png"
-              sx={{ 
-                width: 64,  // ปรับขนาด logo ให้ใหญ่ขึ้น
+              src="https://i.postimg.cc/yNrjWd8h/logo-resto.png"
+              sx={{
+                width: 64,
                 height: 64,
-                mb: 1  // margin bottom
+                mb: 1, 
               }}
             />
-            <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-              RESTO EZY
-            </Typography>
+            
           </Box>
 
           <List>
-            <ListItem button>            
+            <ListItem button onClick={() => handleTabClick("Summarize")}>
               <ListItemIcon>
-                <BarChartIcon sx={{ color: '#fff' }} />
+                <DashboardIcon sx={{ color: "#fff" }} />
               </ListItemIcon>
               <ListItemText primary="Summarize" />
             </ListItem>
-            <ListItem button>
+            <ListItem button onClick={() => handleTabClick("Table")}>
               <ListItemIcon>
-                <TableChartIcon sx={{ color: '#fff' }} />
+                <TableChartIcon sx={{ color: "#fff" }} />
               </ListItemIcon>
               <ListItemText primary="Table" />
             </ListItem>
-            <ListItem button>
+            <ListItem button onClick={() => handleTabClick("Menu")}>
               <ListItemIcon>
-                <AttachMoneyIcon sx={{ color: '#fff' }} />
+                <FastfoodIcon sx={{ color: "#fff" }} />
+              </ListItemIcon>
+              <ListItemText primary="Menu" />
+            </ListItem>
+            <ListItem button onClick={() => handleTabClick("Payment")}>
+              <ListItemIcon>
+                <AttachMoneyIcon sx={{ color: "#fff" }} />
               </ListItemIcon>
               <ListItemText primary="Payment" />
             </ListItem>
@@ -94,7 +98,7 @@ const Dashboard = () => {
           <List>
             <ListItem button onClick={handleSignOut}>
               <ListItemIcon>
-                <LogoutIcon sx={{ color: '#fff' }} />
+                <LogoutIcon sx={{ color: "#fff" }} />
               </ListItemIcon>
               <ListItemText primary="Sign Out" />
             </ListItem>
@@ -107,61 +111,56 @@ const Dashboard = () => {
         {/* Header */}
         <Box
           sx={{
-            width: '100%',
-            position: 'sticky',
+            width: "100%",
+            position: "sticky",
             top: 0,
             zIndex: 1100,
-            backgroundColor: '#333',
-            boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+            backgroundColor: "#333",
+            boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
           }}
         >
           <Toolbar
             sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              padding: '1rem',
-              color: '#fff',
+              display: "flex",
+              justifyContent: "space-between",
+              padding: "1rem",
+              color: "#fff",
             }}
           >
             <Box display="flex" alignItems="center">
-              <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                Dashboard
+              <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+              RESTO EZY
               </Typography>
             </Box>
             <Box display="flex" alignItems="center">
               <Avatar
                 alt="User Profile"
                 src="/path-to-avatar.png"
-                sx={{ marginRight: '0.5rem' }}
+                sx={{ marginRight: "0.5rem" }}
               />
               <Typography variant="body1">Name - Surname</Typography>
             </Box>
           </Toolbar>
         </Box>
 
-        {/* Charts Content */}
+        {/* Dynamic Content */}
         <Box sx={{ p: 3 }}>
-          <Typography variant="h5" sx={{ my: 3 }}>
-            Year: 2023
-          </Typography>
-          <BarChart width={600} height={300} data={data}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Bar dataKey="uv" fill="#8884d8" />
-          </BarChart>
-
-          <Typography variant="h5" sx={{ my: 3 }}>
-            Month: 3
-          </Typography>
-          <LineChart width={600} height={300} data={data}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Line type="monotone" dataKey="uv" stroke="#8884d8" />
-          </LineChart>
+          {selectedTab === "Summarize" && (
+            <Summary />
+          )}
+          {selectedTab === "Table" && (
+           <TablePage />
+          )}
+          {selectedTab === "Menu" && (
+            <Typography variant="h5" sx={{ my: 3 }}>
+              Menu Data (coming soon)
+            </Typography>
+          )}
+          {selectedTab === "Payment" && (
+            <Typography variant="h5" sx={{ my: 3 }}>
+              Payment Data (coming soon)
+            </Typography>
+          )}
         </Box>
       </Box>
     </Box>

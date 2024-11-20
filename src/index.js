@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import DashBoard from './pages/DashBoard';
+import TablePage from './pages/Component/Table';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -14,6 +15,7 @@ root.render(
     <Route path="/" element={<Login/>} />
     <Route path="/register" element={<Register/>} />
     <Route path="/dashboard" element={<DashBoard/>} />
+    <Route path="/table" element={<TablePage/>} />
   </Routes>
   </BrowserRouter>
 );
