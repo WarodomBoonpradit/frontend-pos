@@ -8,6 +8,8 @@ import { useNavigate } from "react-router-dom";
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import TablePage from "./Component/Table";
 import Summary from "./Component/Summary";
+import MenuPage from "./Component/ManuPage";
+import PaymentPage from "./Component/PaymentPage";
 
 const Dashboard = () => {
   const drawerWidth = 250;
@@ -152,14 +154,10 @@ const Dashboard = () => {
            <TablePage />
           )}
           {selectedTab === "Menu" && (
-            <Typography variant="h5" sx={{ my: 3 }}>
-              Menu Data (coming soon)
-            </Typography>
+            <MenuPage/>
           )}
           {selectedTab === "Payment" && (
-            <Typography variant="h5" sx={{ my: 3 }}>
-              Payment Data (coming soon)
-            </Typography>
+            <PaymentPage/>
           )}
         </Box>
       </Box>

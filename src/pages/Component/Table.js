@@ -20,7 +20,7 @@ const TableSelectionPage = () => {
     return (
         <Box sx={{ p: 4 }}>
             <Typography variant="h4" align="center" gutterBottom>
-                เลือกโต๊ะสำหรับลูกค้า
+                Select table for Customer
             </Typography>
             <Grid container spacing={3}>
                 {tables.map((table) => (
@@ -35,7 +35,7 @@ const TableSelectionPage = () => {
                         >
                             <CardContent>
                                 <Typography variant="h5">
-                                    โต๊ะ {table.id}
+                                    Table {table.id}
                                 </Typography>
                                 <Typography variant="body1" gutterBottom>
                                     {table.isOccupied ? "ไม่ว่าง" : "ว่าง"}
