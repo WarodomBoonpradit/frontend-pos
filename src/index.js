@@ -7,6 +7,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import DashBoard from './pages/DashBoard';
 import TablePage from './pages/Component/Table';
+import DashBoardCook from './pages/DashBoardCook';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -16,11 +17,9 @@ root.render(
     <Route path="/register" element={<Register/>} />
     <Route path="/dashboard" element={<DashBoard/>} />
     <Route path="/table" element={<TablePage/>} />
+    <Route path="/cook" element={<DashBoardCook/>} />
   </Routes>
   </BrowserRouter>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
