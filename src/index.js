@@ -5,9 +5,9 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import DashBoard from './pages/DashBoard';
-import TablePage from './pages/Component/Table';
-import DashBoardCook from './pages/DashBoardCook';
+import DashBoard from './pages/Admin/DashBoard';
+import TablePage from './pages/Admin/Component/Table';
+import DashBoardCook from './pages/Employee/DashBoardCook';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

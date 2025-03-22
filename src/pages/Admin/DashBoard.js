@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {  Box,  Toolbar,  Typography,  Drawer,  List,  ListItem,  ListItemIcon,  ListItemText,  Avatar } from "@mui/material";
 import TableChartIcon from "@mui/icons-material/TableChart";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
@@ -14,15 +14,45 @@ import PaymentPage from "./Component/PaymentPage";
 const Dashboard = () => {
   const drawerWidth = 250;
   const [selectedTab, setSelectedTab] = useState("Summarize");
+  const [user, setUser] = useState({ name: "", surname: "" });
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/");
+      return;
+    } 
+    try {
+      const decoded = JSON.parse(atob(token.split('.')[1]));
+      const role = decoded.E_role;
+  
+      if (role !== "admin") {
+        navigate("/");
+        alert("You are not authorized to access this page");
+      } else {
+        if (decoded.E_name && decoded.E_surname) {
+          setUser({
+            name: decoded.E_name,
+            surname: decoded.E_surname
+          });
+        }
+      }
+    } catch (error) {
+      console.error("Error decoding token", error);
+    }
+  }, [navigate]);
+  
+  
 
   const handleTabClick = (tab) => {
     setSelectedTab(tab);
   };
 
   const handleSignOut = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
     navigate("/");
-    console.log("Sign Out");
   };
 
   return (
@@ -52,7 +82,7 @@ const Dashboard = () => {
               justifyContent: "center",
               alignItems: "center",
               flexDirection: "column",
-              py: 2, // padding top and bottom
+              py: 2,
             }}
           >
             <Avatar
@@ -140,7 +170,7 @@ const Dashboard = () => {
                 src="/path-to-avatar.png"
                 sx={{ marginRight: "0.5rem" }}
               />
-              <Typography variant="body1">Name - Surname</Typography>
+              <Typography variant="body1">{user.name} - {user.surname}</Typography>
             </Box>
           </Toolbar>
         </Box>

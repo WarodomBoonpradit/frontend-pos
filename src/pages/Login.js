@@ -11,13 +11,35 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 const defaultTheme = createTheme();
 
 export default function Login() {
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
+    
+        const response = await fetch('http://localhost:3333/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                E_email: data.get('email'),
+                E_password: data.get('password'),
+            }),
         });
+    
+        const result = await response.json();
+    
+        if (result.status === 'success') {
+            localStorage.setItem('token', result.token);
+            localStorage.setItem('role', result.role);
+    
+            if (result.role === 'admin') {
+                window.location.href = '/dashboard';
+            } else if (result.role === 'cashier' || result.role === 'waiter') {
+                window.location.href = '/employee';
+            } else if (result.role === 'cook') {
+                window.location.href = '/cook';
+            }
+        } else {
+            alert('Login failed: ' + result.message);
+        }
     };
 
     return (
@@ -32,21 +54,21 @@ export default function Login() {
                         alignItems: 'center',
                     }}
                 >
-                    <Avatar 
-                    src="https://i.postimg.cc/yNrjWd8h/logo-resto.png" 
-                    sx={{                                                   
-                        width: 350, 
-                        height: 350,
-                        border: 3
-                      }}
+                    <Avatar
+                        src="https://i.postimg.cc/yNrjWd8h/logo-resto.png"
+                        sx={{
+                            width: 350,
+                            height: 350,
+                            border: 3
+                        }}
                     >
-                      <LockOutlinedIcon />                  
-                    </Avatar> 
+                        <LockOutlinedIcon />
+                    </Avatar>
 
                     <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
 
                         <TextField
-                        
+
                             InputProps={{ sx: { borderRadius: 3 } }}
                             margin="normal"
                             required
@@ -71,7 +93,6 @@ export default function Login() {
                         />
 
                         <Button
-                            href="/dashboard"
                             type="submit"
                             fullWidth
                             variant="contained"

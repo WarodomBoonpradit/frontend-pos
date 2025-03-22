@@ -14,15 +14,56 @@ import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 const defaultTheme = createTheme();
 
 export default function Register() {
-  const handleSubmit = (event) => {
+  const [hireDate, setHireDate] = useState(new Date().toISOString().split('T')[0]);
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-      job: data.get('job'), // เพิ่มการ log ข้อมูล job ที่เลือก
+    const formData = {
+      E_ssn: data.get('ssn').replace(/[^0-9]/g, ''),
+      E_name: data.get('firstName'),
+      E_surname: data.get('lastName'),
+      E_phone: data.get('phone').replace(/[^0-9]/g, ''),
+      E_address: data.get('address'),
+      E_birthDate: data.get('birthDate'),
+      E_role: data.get('job'),
+      E_email: data.get('email'),
+      E_password: data.get('password'),
+      E_hireDate: data.get('hireDate'),
+    };
+  
+    console.log('Data to be sent:', formData);
+
+    const response = await fetch('http://localhost:3333/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        E_ssn: data.get('ssn'),
+        E_name: data.get('firstName'),
+        E_surname: data.get('lastName'),
+        E_phone: data.get('phone'),
+        E_address: data.get('address'),
+        E_birthDate: data.get('birthDate'),
+        E_role: data.get('job'),
+        E_email: data.get('email'),
+        E_password: data.get('password'),
+        E_hireDate: data.get('hireDate'),
+      }),
     });
-  };
+
+    const result = await response.json();
+    console.log('Result:', result);
+
+    if (result.status === 'success') {
+      alert('Registration successful!');
+      if (result.role === 'admin') {
+        window.location.href = '/dashboard';
+      }
+    } else {
+      alert('Registration failed: ' + result.message);
+    }
+  }
+
 
   const inputStyle = {
     height: '50px',
@@ -187,6 +228,7 @@ export default function Register() {
                     }}
                     onChange={(e) => console.log(e.target.value)}
                   >
+                    <MenuItem value="admin">Admin</MenuItem>
                     <MenuItem value="cook">Cook</MenuItem>
                     <MenuItem value="cashier">Cashier</MenuItem>
                     <MenuItem value="waiter">Waiter</MenuItem>
@@ -225,6 +267,30 @@ export default function Register() {
                   InputLabelProps={{
                     style: labelStyle,
                   }}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="birthDate"
+                  label="Birth Date"
+                  name="birthDate"
+                  type="date"
+                  InputLabelProps={{ shrink: true }}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="hireDate"
+                  label="Hire Date"
+                  name="hireDate"
+                  type="date"
+                  value={hireDate}
+                  onChange={(e) => setHireDate(e.target.value)}
+                  InputLabelProps={{ shrink: true }}
                 />
               </Grid>
             </Grid>
