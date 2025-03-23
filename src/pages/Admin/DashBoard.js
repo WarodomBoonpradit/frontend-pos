@@ -5,11 +5,13 @@ import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import LogoutIcon from "@mui/icons-material/Logout";
 import FastfoodIcon from '@mui/icons-material/Fastfood';
 import { useNavigate } from "react-router-dom";
+import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import TablePage from "./Component/Table";
 import Summary from "./Component/Summary";
-import MenuPage from "./Component/ManuPage";
+import MenuPage from "./Component/MenuPage";
 import PaymentPage from "./Component/PaymentPage";
+import EmployeeList from "./Component/EmployeeList";
 
 const Dashboard = () => {
   const drawerWidth = 250;
@@ -24,7 +26,16 @@ const Dashboard = () => {
       return;
     } 
     try {
-      const decoded = JSON.parse(atob(token.split('.')[1]));
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(
+        atob(base64)
+          .split('')
+          .map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+          .join('')
+      );
+      const decoded = JSON.parse(jsonPayload);
+      
       const role = decoded.E_role;
   
       if (role !== "admin") {
@@ -122,6 +133,12 @@ const Dashboard = () => {
               </ListItemIcon>
               <ListItemText primary="Payment" />
             </ListItem>
+            <ListItem button onClick={() => handleTabClick("Employee")}>
+              <ListItemIcon>
+                <AssignmentIndIcon sx={{ color: "#fff" }} />
+              </ListItemIcon>
+              <ListItemText primary="Employee" />
+            </ListItem>
           </List>
         </Box>
 
@@ -170,7 +187,7 @@ const Dashboard = () => {
                 src="/path-to-avatar.png"
                 sx={{ marginRight: "0.5rem" }}
               />
-              <Typography variant="body1">{user.name} - {user.surname}</Typography>
+              <Typography variant="body1">{user.name}  {user.surname}</Typography>
             </Box>
           </Toolbar>
         </Box>
@@ -188,6 +205,9 @@ const Dashboard = () => {
           )}
           {selectedTab === "Payment" && (
             <PaymentPage/>
+          )}
+          {selectedTab === "Employee" && (
+            <EmployeeList/>
           )}
         </Box>
       </Box>

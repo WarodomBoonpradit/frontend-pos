@@ -15,7 +15,7 @@ export default function Login() {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
     
-        const response = await fetch('http://localhost:3333/', {
+        const response = await fetch('http://192.168.1.22:3333/', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({

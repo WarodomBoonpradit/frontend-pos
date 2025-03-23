@@ -34,7 +34,7 @@ export default function Register() {
   
     console.log('Data to be sent:', formData);
 
-    const response = await fetch('http://localhost:3333/register', {
+    const response = await fetch('http://192.168.1.22:3333/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -57,6 +57,8 @@ export default function Register() {
     if (result.status === 'success') {
       alert('Registration successful!');
       if (result.role === 'admin') {
+        window.location.href = '/dashboard';
+      } else {
         window.location.href = '/dashboard';
       }
     } else {
